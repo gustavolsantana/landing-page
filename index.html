@@ -20,8 +20,7 @@
     <header class="navbar" id="navbar">
       <div class="container nav-container">
         <a href="#" class="logo">
-          G.Santana
-          <span class="cursor-blink">_</span>
+          <span>G.Santana</span><span class="cursor-blink"></span>
         </a>
 
         <nav class="nav-links">
@@ -271,22 +270,30 @@
             <p>Preencha os dados abaixo e entrarei em contato para discutirmos soluções técnicas para o seu negócio.</p>
           </div>
 
-          <form action="#" method="POST" class="form-prominent">
+          <form action="#" method="POST" class="form-prominent" id="form-contato">
+            <!-- Campos ocultos do FormSubmit -->
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_subject" value="Novo contato do Portfólio!" />
+
             <div class="form-row-desktop">
               <div class="input-group">
-                <input type="text" id="nome" required placeholder=" " />
+                <input type="text" id="nome" name="nome" required placeholder=" " />
                 <label for="nome">Como devo te chamar?</label>
               </div>
               <div class="input-group">
-                <input type="email" id="email" required placeholder=" " />
+                <input type="email" id="email" name="email" required placeholder=" " />
                 <label for="email">Seu melhor e-mail</label>
               </div>
             </div>
             <div class="input-group">
-              <textarea id="mensagem" rows="6" required placeholder=" "></textarea>
+              <textarea id="mensagem" name="mensagem" rows="6" required placeholder=" "></textarea>
               <label for="mensagem">Detalhes do projeto ou dúvida</label>
             </div>
-            <button type="submit" class="btn-glow-large">Enviar Solicitação</button>
+
+            <button type="submit" class="btn-glow-large" id="btn-enviar">Enviar Solicitação</button>
+
+            <!-- Div onde a mensagem de sucesso/erro vai aparecer -->
+            <div id="form-status" style="margin-top: 16px; text-align: center; font-weight: 600; font-family: var(--font-main)"></div>
           </form>
         </div>
       </div>

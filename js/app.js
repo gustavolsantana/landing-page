@@ -57,3 +57,57 @@ document.addEventListener("DOMContentLoaded", () => {
     revealOnScroll.observe(el);
   });
 });
+// 4. Lógica de Envio do Formulário (Sem redirecionar a página)
+const formContato = document.getElementById("form-contato");
+const formStatus = document.getElementById("form-status");
+const btnEnviar = document.getElementById("btn-enviar");
+
+if (formContato) {
+  formContato.addEventListener("submit", async function (e) {
+    e.preventDefault(); // Impede que a página recarregue ou redirecione
+
+    // 1. Muda o estado do botão para dar feedback visual de carregamento
+    const textoOriginal = btnEnviar.innerText;
+    btnEnviar.innerText = "Enviando...";
+    btnEnviar.disabled = true;
+    btnEnviar.style.opacity = "0.7";
+    formStatus.innerHTML = ""; // Limpa mensagens anteriores
+
+    // 2. Coleta os dados digitados usando a API FormData
+    const formData = new FormData(formContato);
+
+    try {
+      // 3. Faz o envio por baixo dos panos (Coloque seu email correto aqui)
+      const response = await fetch("https://formsubmit.co/ajax/gustavolucena559@gmail.com", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      // 4. Trata a resposta
+      if (response.ok) {
+        // Sucesso: Texto verde padrão da sua paleta e limpa o formulário
+        formStatus.innerHTML = '<span style="color: #10b981;">Mensagem enviada com sucesso! Retorno em breve.</span>';
+        formContato.reset();
+      } else {
+        // Erro do lado do servidor
+        formStatus.innerHTML = '<span style="color: #ff007a;">Ops! Ocorreu um erro ao enviar. Tente novamente.</span>';
+      }
+    } catch (error) {
+      // Erro de rede (ex: usuário sem internet)
+      formStatus.innerHTML = '<span style="color: #ff007a;">Erro de conexão. Tente me chamar no WhatsApp!</span>';
+    } finally {
+      // 5. Restaura o botão ao estado original, independentemente de dar certo ou errado
+      btnEnviar.innerText = textoOriginal;
+      btnEnviar.disabled = false;
+      btnEnviar.style.opacity = "1";
+
+      // Opcional: Apaga a mensagem de sucesso depois de 6 segundos
+      setTimeout(() => {
+        formStatus.innerHTML = "";
+      }, 6000);
+    }
+  });
+}
